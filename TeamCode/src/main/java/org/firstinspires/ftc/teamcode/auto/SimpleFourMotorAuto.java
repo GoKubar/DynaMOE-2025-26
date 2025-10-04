@@ -17,16 +17,15 @@ public class SimpleFourMotorAuto extends LinearOpMode {
         DcMotor rightFront = hardwareMap.get(DcMotor.class, "rightFront");
 
         // reverse to go foward
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
         // already works
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
 
         waitForStart();
 
         // power test
-
 
         double rightPower = 0.2;
         //missing the wheel so cut inhalf
