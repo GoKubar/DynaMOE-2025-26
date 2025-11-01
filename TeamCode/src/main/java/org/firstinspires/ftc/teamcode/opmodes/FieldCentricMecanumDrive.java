@@ -16,7 +16,7 @@ public class FieldCentricMecanumDrive extends LinearOpMode {
         DcMotor leftBack   = hardwareMap.get(DcMotor.class, "leftBack");
         DcMotor rightBack  = hardwareMap.get(DcMotor.class, "rightBack");
         DcMotor rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-    //reverse later
+
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
         leftFront.setDirection(DcMotor.Direction.REVERSE);
