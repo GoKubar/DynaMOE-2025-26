@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -39,6 +39,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
+
 
 /*
  * This OpMode illustrates the basics of AprilTag recognition and pose estimation, using
@@ -61,20 +62,14 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Concept: AprilTag Easy", group = "Concept")
-
+@TeleOp
+@Disabled
 public class AprilTagDetector extends LinearOpMode {
 
-    private static final boolean USE_WEBCAM = false;  // true for webcam, false for phone camera
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    /**
-     * The variable to store our instance of the AprilTag processor.
-     */
     private AprilTagProcessor aprilTag;
 
-    /**
-     * The variable to store our instance of the vision portal.
-     */
     private VisionPortal visionPortal;
 
     @Override
@@ -82,7 +77,6 @@ public class AprilTagDetector extends LinearOpMode {
 
         initAprilTag();
 
-        // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch START to start OpMode");
         telemetry.update();
@@ -93,25 +87,25 @@ public class AprilTagDetector extends LinearOpMode {
 
                 telemetryAprilTag();
 
-                // Push telemetry to the Driver Station.
+
                 telemetry.update();
 
-                // Save CPU resources; can resume streaming when needed.
+
                 if (gamepad1.dpad_down) {
                     visionPortal.stopStreaming();
                 } else if (gamepad1.dpad_up) {
                     visionPortal.resumeStreaming();
                 }
 
-                // Share the CPU.
+
                 sleep(20);
             }
         }
 
-        // Save more CPU resources when camera is no longer needed.
+
         visionPortal.close();
 
-    }   // end method runOpMode()
+    }
 
     /**
      * Initialize the AprilTag processor.
@@ -130,11 +124,9 @@ public class AprilTagDetector extends LinearOpMode {
                     BuiltinCameraDirection.BACK, aprilTag);
         }
 
-    }   // end method initAprilTag()
+    }
 
-    /**
-     * Add telemetry about AprilTag detections.
-     */
+
     private void telemetryAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -142,7 +134,16 @@ public class AprilTagDetector extends LinearOpMode {
 
         // Step through the list of detections and display info for each one.
         for (AprilTagDetection detection : currentDetections) {
-            if (detection.metadata != null) {
+            if ( detection.id == 21) {
+                telemetry.addLine("gpp");
+            } else if (detection.id == 22) {
+                telemetry.addLine("pgp");
+            } else if ( detection.id== 23) {
+                telemetry.addLine("ppg");
+            } else {
+                telemetry.addLine("not order april tag");
+            }
+            /*if (detection.metadata != null) {
                 telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
                 telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
@@ -150,14 +151,10 @@ public class AprilTagDetector extends LinearOpMode {
             } else {
                 telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
                 telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
-            }
-        }   // end for() loop
+            }*/
+        }
 
-        // Add "key" information to telemetry
-        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-        telemetry.addLine("RBE = Range, Bearing & Elevation");
 
-    }   // end method telemetryAprilTag()
+    }
 
-}   // end class
+}

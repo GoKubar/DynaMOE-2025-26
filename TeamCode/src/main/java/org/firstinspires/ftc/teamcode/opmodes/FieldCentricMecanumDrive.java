@@ -14,15 +14,24 @@ public class FieldCentricMecanumDrive extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor leftFront  = hardwareMap.get(DcMotor.class, "leftFront");
         DcMotor leftBack   = hardwareMap.get(DcMotor.class, "leftBack");
-        DcMotor rightBack  = hardwareMap.get(DcMotor.class, "rightBack");
+        DcMotor rightBack  = hardwareMap.get(DcMotor.class, "rig`htBack");
         DcMotor rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-    //reverse later
+
+        rightBack.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.FORWARD);
+
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         IMU imu = hardwareMap.get(IMU.class, "imu");
         // Subject to change
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
+                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
         imu.initialize(parameters);
 
         waitForStart();

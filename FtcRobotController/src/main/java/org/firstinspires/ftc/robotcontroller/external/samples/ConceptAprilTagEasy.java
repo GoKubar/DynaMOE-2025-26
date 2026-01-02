@@ -154,9 +154,7 @@ public class ConceptAprilTagEasy extends LinearOpMode {
         }   // end for() loop
 
         // Add "key" information to telemetry
-        telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
-        telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
-        telemetry.addLine("RBE = Range, Bearing & Elevation");
+
 
     }   // end method telemetryAprilTag()
 
