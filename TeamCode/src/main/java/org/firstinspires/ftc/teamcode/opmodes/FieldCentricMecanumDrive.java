@@ -12,31 +12,40 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @TeleOp
 public class FieldCentricMecanumDrive extends LinearOpMode {
+    DcMotor leftFront;
+    DcMotor leftBack;
+    DcMotor rightBack;
+    DcMotor rightFront;
+    Follower follower;
     @Override
     public void runOpMode() throws InterruptedException {
-        DcMotor leftFront  = hardwareMap.get(DcMotor.class, "leftFront");
-        DcMotor leftBack   = hardwareMap.get(DcMotor.class, "leftBack");
-        DcMotor rightBack  = hardwareMap.get(DcMotor.class, "rightBack");
-        DcMotor rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        //pedro follower to get heading using pinpoint instead of chub
+        // make sure you create the follower BEFORE you initialize the motors
+        follower = Constants.createFollower(hardwareMap);
 
+        leftFront  = hardwareMap.get(DcMotor.class, "leftFront");
+        leftBack   = hardwareMap.get(DcMotor.class, "leftBack");
+        rightBack  = hardwareMap.get(DcMotor.class, "rightBack");
+        rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+
+        //correctly reverse motors
         rightBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.FORWARD);
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //Add this back in if you want to use chub imu instead of pinpoint imu
 //        IMU imu = hardwareMap.get(IMU.class, "imu");
 //        // Subject to change
 //        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
 //                RevHubOrientationOnRobot.LogoFacingDirection.UP,
 //                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
 //        imu.initialize(parameters);
-
-        Follower follower = Constants.createFollower(hardwareMap);
 
         waitForStart();
 
@@ -52,6 +61,7 @@ public class FieldCentricMecanumDrive extends LinearOpMode {
 
 
             double botHeading = follower.getHeading();
+            telemetry.addData("Heading", Math.toDegrees(botHeading));
 
             double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
             double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
@@ -66,6 +76,8 @@ public class FieldCentricMecanumDrive extends LinearOpMode {
             leftBack.setPower(leftBackPower);
             rightBack.setPower(rightBackPower);
             rightFront.setPower(rightFrontPower);
+
+            telemetry.update();
         }
     }
 }
